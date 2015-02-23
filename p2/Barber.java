@@ -3,7 +3,7 @@ package p2;
  * This class implements the barber's part of the
  * Barbershop thread synchronization example.
  */
-public class Barber {
+public class Barber extends Thread {
 	/**
 	 * Creates a new barber.
 	 * @param queue		The customer queue.
