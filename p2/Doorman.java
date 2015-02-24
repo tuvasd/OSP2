@@ -4,20 +4,44 @@ package p2;
  * Barbershop thread synchronization example.
  */
 public class Doorman extends Thread {
+	
+	private CustomerQueue queue;
+
+	
 	/**
 	 * Creates a new doorman.
 	 * @param queue		The customer queue.
 	 * @param gui		A reference to the GUI interface.
 	 */
 	public Doorman(CustomerQueue queue, Gui gui) { 
+		this.queue = queue;
+		
 		
 	}
 	
+
+	@Override
+	public void run() {
+		while (true){
+			Customer costumer = new Customer();
+			queue.addCustomer(costumer);
+			try {
+				sleep(Globals.doormanSleep);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			
+		
+	}
+
 
 	/**
 	 * Starts the doorman running as a separate thread.
 	 */
 	public void startThread() {
+		this.start();
 		
 	
 	}
@@ -26,7 +50,8 @@ public class Doorman extends Thread {
 	 * Stops the doorman thread.
 	 */
 	public void stopThread() {
-		// Incomplete
+		this.stop();
+
 	}
 
 	// Add more methods as needed

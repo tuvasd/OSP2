@@ -18,13 +18,13 @@ public class CustomerQueue {
 	
 	
     public CustomerQueue(int queueLength, Gui gui) {
-    	queueLength = queueLength;
-    	gui = gui;
-    	Customer[] queue = new Customer[18];
+    	this.queueLength = queueLength;
+    	this.gui = gui;
+    	Customer[] queue = new Customer[queueLength];
  
 	}
     
-    public void addCustomer(Customer customer){
+    public synchronized void addCustomer(Customer customer){
     	last = (last +1) % 18;
     	queue[last] = customer;
     	if((last +1) % 18== first){
