@@ -23,8 +23,8 @@ public class Doorman extends Thread {
 	@Override
 	public void run() {
 		while (true){
-			Customer costumer = new Customer();
-			queue.addCustomer(costumer);
+			Customer customer = new Customer();
+			queue.addCustomer(customer);
 			try {
 				sleep(Globals.doormanSleep);
 			} catch (InterruptedException e) {

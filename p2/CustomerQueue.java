@@ -20,21 +20,79 @@ public class CustomerQueue {
     public CustomerQueue(int queueLength, Gui gui) {
     	this.queueLength = queueLength;
     	this.gui = gui;
-    	Customer[] queue = new Customer[queueLength];
+    	this.first = 0;
+    	this.last = 17;
+    	this.queue = new Customer[queueLength];
+
  
 	}
     
     public synchronized void addCustomer(Customer customer){
-    	last = (last +1) % 18;
+    	
+    	updateLast();
     	queue[last] = customer;
-    	if((last +1) % 18== first){
+    	gui.fillLoungeChair(last, customer);
+    	// If the queue is full, the doorman should sleep until a customer is removed
+    	if(queueFull()){
     		//NOTIFY DOORMAN
+    		try {
+    			gui.println("The queue is full, Norman the doorman has to wait.");
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	// If a new customer is added to an empty queue
+    	else if(first==last){
+    		notifyAll();
     	}
    	
     }
     
+    public synchronized Customer removeCustomer(int pos){
+    	if(queue[first] != null) {
+    		if (queueFull()){
+    			notifyAll();
+    		}
+    		Customer customer = queue[first];
+    		queue[first] = null;
+    		gui.emptyLoungeChair(first);
+    		updateFirst();
+ 
+    		
+    		return customer;
+    	}
+    	else {
+    		try {
+				wait();
+				gui.println(Globals.navnListe[pos] + " has to wait");
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		return null;
+    	}
+    	
+    	
+    }
     
+    private void updateLast(){
+    	
+    	last = (last +1) % 18;
+    }
     
+    private void updateFirst(){
+    	first = (first +1) % 18;
+    }
+    
+    private boolean queueEmpty() {
+    	return first == (last+1)%18 && queue[first] == null;
+    }
+    
+    private boolean queueFull() {
+    	return first == (last+1)%18 && queue[first] != null;
+    }
     
 
 	// Add more methods as needed

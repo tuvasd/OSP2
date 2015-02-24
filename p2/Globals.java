@@ -5,6 +5,7 @@ package p2;
  */
 public class Globals implements Constants
 {
+	public static String navnListe[]= {"Anna","Håvard","Tuva"};
 	/** The number of milliseconds a barber sleeps between each work period */
 	public static int barberSleep = (MAX_BARBER_SLEEP+MIN_BARBER_SLEEP)/2;
 	/** The number of milliseconds it takes a barber to cut a customer's hair */
